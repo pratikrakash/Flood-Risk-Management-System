@@ -48,3 +48,7 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 });
+function loginAsGuest() 
+{
+    window.location.href = "clientdashboard.html";
+}

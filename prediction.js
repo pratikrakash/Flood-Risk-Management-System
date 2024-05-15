@@ -143,48 +143,70 @@ document.getElementById('calculate-flood-prediction').addEventListener('click', 
 //         alert('Failed to fetch data from API');
 //     });
 // }
+async function calculateRainfallForNext7Days() {
+    try {
+        const apiKey = '46307c0733115117bdbc3aa38ad0028a';
+        const city = 'Chennai';
+        const apiUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${apiKey}&units=metric`;
+
+        // Fetch forecast data from OpenWeatherMap API
+        const response = await fetch(apiUrl);
+        if (!response.ok) {
+            throw new Error('Failed to fetch forecast data from OpenWeatherMap API');
+        }
+        const forecastData = await response.json();
+
+        // Extract rainfall data for the next 7 days
+        const next7Days = forecastData.list.slice(0, 7).map(item => ({
+            date: new Date(item.dt * 1000), // Convert timestamp to Date object
+            rainfall: item.rain ? item.rain['3h'] : 0 // Check if rainfall data is available
+        }));
+
+        // Calculate total rainfall for the next 7 days
+        const totalRainfall = next7Days.reduce((total, day) => total + day.rainfall, 0);
+
+        return totalRainfall;
+    } catch (error) {
+        console.error('Error calculating rainfall for next 7 days:', error);
+        throw error; // Rethrow the error to handle it outside this function
+    }
+}
+
 async function calculateFloodPrediction() {
     try {
-        // Fetch rainfall prediction data from OpenWeatherMap
-        const response = await fetch('https://api.openweathermap.org/data/2.5/onecall?lat=13.0827&lon=80.2707&exclude=current,minutely,hourly,alerts&appid=46307c0733115117bdbc3aa38ad0028a');
-        if (!response.ok) {
-            throw new Error('Failed to fetch rainfall prediction data from OpenWeatherMap');
-        }
-        const weatherData = await response.json();
+        // Calculate total rainfall for the next 7 days
+        const totalRainfall = await calculateRainfallForNext7Days();
 
-        // Extract the relevant rainfall data for the next 7 days
-        const rainfallData = weatherData.daily.slice(0, 7).map(day => day.rain ? day.rain : 0);
-
-        // Send the rainfall data to your API for flood prediction
-        const apiResponse = await fetch('http://127.0.0.1:5000/api/predict', {
+        // Fetch data from the API
+        const response = await fetch('http://127.0.0.1:5000/api/predict', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({
                 threshold: '0.5',
-                data: rainfallData
+                data: totalRainfall.toString() // Send total rainfall as a string
             })
         });
-        
-        if (!apiResponse.ok) {
-            throw new Error('Failed to send data to API for flood prediction');
-        }
-        
-        const predictionData = await apiResponse.json();
 
+        if (!response.ok) {
+            throw new Error('Failed to fetch data from API');
+        }
+
+        const data = await response.json();
         // Extract the prediction probability from the API response
-        const predictionProbability = predictionData.prediction.y_month_raw[0].months_flood;
+        const predictionPercentage = (data.prediction.y_month_raw[0].months_flood * 100).toFixed(2);
 
         // Display the prediction probability on the webpage
         const predictionResultElement = document.getElementById('prediction-result');
-        predictionResultElement.textContent = `Prediction Probability: ${predictionProbability}`;
+        predictionResultElement.textContent = `Prediction Percentage: ${predictionProbability}`;
     } catch (error) {
-        // Log and alert the error message
-        console.error('Error:', error);
-        alert('Failed to get flood prediction');
+        console.error('Error fetching data from API:', error);
+        alert('Failed to fetch data from API');
     }
 }
+
+
 
 
 
