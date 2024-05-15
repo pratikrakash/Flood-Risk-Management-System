@@ -172,32 +172,43 @@
         <p>Powered by <a href="https://openweathermap.org/" target="_blank">OpenWeatherMap</a></p>
     </div>
 
-    <script>
+
+<script>
+        // API key for accessing OpenWeatherMap API
         const apiKey = '46307c0733115117bdbc3aa38ad0028a';
+        // City for which weather forecast is requested
         const city = 'Chennai';
+        // API URL constructed with city and API key
         const apiUrl = `https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${apiKey}&units=metric`;
 
+        // Fetching weather data from the API
         fetch(apiUrl)
-            .then(response => response.json())
+            .then(response => response.json()) // Parse response as JSON
             .then(data => {
+                // Extracting current weather information from the data
                 const iconCode = data.list[0].weather[0].icon;
                 const iconUrl = `http://openweathermap.org/img/wn/${iconCode}.png`;
                 const temperature = `${Math.round(data.list[0].main.temp)}°C`;
                 const description = data.list[0].weather[0].description;
 
+                // Updating current weather information on the webpage
                 document.querySelector('.weather-icon').src = iconUrl;
                 document.querySelector('.temperature').textContent = temperature;
                 document.querySelector('.description').textContent = description;
 
+                // Extracting hourly forecast data for the next 6 hours
                 const hourlyForecastContainer = document.querySelector('.hourly-forecast');
                 const hourlyForecast = data.list.slice(0, 6); // Display forecast for next 6 hours
                 hourlyForecast.forEach(hourData => {
+                    // Extracting hour from the timestamp
                     const hour = new Date(hourData.dt * 1000).getHours();
+                    // Extracting temperature and description for the hour
                     const temperature = `${Math.round(hourData.main.temp)}°C`;
                     const description = hourData.weather[0].description;
                     const iconCode = hourData.weather[0].icon;
                     const iconUrl = `http://openweathermap.org/img/wn/${iconCode}.png`;
 
+                    // Creating HTML elements to display hourly forecast
                     const hourDiv = document.createElement('div');
                     hourDiv.classList.add('hour');
                     hourDiv.innerHTML = `
@@ -206,10 +217,12 @@
                         <div>${temperature}</div>
                     `;
 
+                    // Appending hourly forecast elements to the container
                     hourlyForecastContainer.appendChild(hourDiv);
                 });
             })
-            .catch(error => console.log('Error fetching weather data:', error));
+            .catch(error => console.log('Error fetching weather data:', error)); // Handling errors in fetching weather data
     </script>
+</body>
 </body>
 </html>
