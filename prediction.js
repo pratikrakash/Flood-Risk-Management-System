@@ -115,3 +115,33 @@ async function sendEmail() {
 }
 
 
+document.getElementById('calculate-flood-prediction').addEventListener('click', calculateFloodPrediction);
+
+function calculateFloodPrediction() {
+    // Fetch data from the API
+    fetch('http://127.0.0.1:5000/api/predict', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+            threshold: '0.5',
+            data: '35325.36'
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        // Extract the prediction probability from the API response
+        const predictionProbability = data.prediction.y_month_raw[0].months_flood;
+ 
+        // Display the prediction probability on the webpage
+        const predictionResultElement = document.getElementById('prediction-result');
+        predictionResultElement.textContent = `Prediction Probability: ${predictionProbability}`;
+    })
+    .catch(error => {
+        console.error('Error fetching data from API:', error);
+        alert('Failed to fetch data from API');
+    });
+}
+
+
