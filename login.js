@@ -39,7 +39,7 @@ document.addEventListener('DOMContentLoaded', function () {
             if (data.isAdmin) {
                 window.location.href = 'admin.html'; // Redirect to admin.html
             } else {
-                window.location.href = 'client.html'; // Redirect to client.html
+                window.location.href = 'clientdashboard.html'; // Redirect to client.html
             }
         })        
         .catch(error => {

@@ -12,5 +12,12 @@
     "password": "2222",
     "region": "Chennai Beach",
     "isAdmin": false
+  },
+  {
+    "fullName": "Ali Zayn",
+    "email": "Ali@gmail.com",
+    "password": "pass",
+    "region": "Egmore",
+    "isAdmin": false
   }
 ]
