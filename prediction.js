@@ -117,31 +117,74 @@ async function sendEmail() {
 
 document.getElementById('calculate-flood-prediction').addEventListener('click', calculateFloodPrediction);
 
-function calculateFloodPrediction() {
-    // Fetch data from the API
-    fetch('http://127.0.0.1:5000/api/predict', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            threshold: '0.5',
-            data: '35325.36'
-        })
-    })
-    .then(response => response.json())
-    .then(data => {
-        // Extract the prediction probability from the API response
-        const predictionProbability = data.prediction.y_month_raw[0].months_flood;
+// function calculateFloodPrediction() {
+//     // Fetch data from the API
+//     fetch('http://127.0.0.1:5000/api/predict', {
+//         method: 'POST',
+//         headers: {
+//             'Content-Type': 'application/json'
+//         },
+//         body: JSON.stringify({
+//             threshold: '0.5',
+//             data: '35325.36'
+//         })
+//     })
+//     .then(response => response.json())
+//     .then(data => {
+//         // Extract the prediction probability from the API response
+//         const predictionProbability = data.prediction.y_month_raw[0].months_flood;
  
+//         // Display the prediction probability on the webpage
+//         const predictionResultElement = document.getElementById('prediction-result');
+//         predictionResultElement.textContent = `Prediction Probability: ${predictionProbability}`;
+//     })
+//     .catch(error => {
+//         console.error('Error fetching data from API:', error);
+//         alert('Failed to fetch data from API');
+//     });
+// }
+async function calculateFloodPrediction() {
+    try {
+        // Fetch rainfall prediction data from OpenWeatherMap
+        const response = await fetch('https://api.openweathermap.org/data/2.5/onecall?lat=13.0827&lon=80.2707&exclude=current,minutely,hourly,alerts&appid=46307c0733115117bdbc3aa38ad0028a');
+        if (!response.ok) {
+            throw new Error('Failed to fetch rainfall prediction data from OpenWeatherMap');
+        }
+        const weatherData = await response.json();
+
+        // Extract the relevant rainfall data for the next 7 days
+        const rainfallData = weatherData.daily.slice(0, 7).map(day => day.rain ? day.rain : 0);
+
+        // Send the rainfall data to your API for flood prediction
+        const apiResponse = await fetch('http://127.0.0.1:5000/api/predict', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                threshold: '0.5',
+                data: rainfallData
+            })
+        });
+        
+        if (!apiResponse.ok) {
+            throw new Error('Failed to send data to API for flood prediction');
+        }
+        
+        const predictionData = await apiResponse.json();
+
+        // Extract the prediction probability from the API response
+        const predictionProbability = predictionData.prediction.y_month_raw[0].months_flood;
+
         // Display the prediction probability on the webpage
         const predictionResultElement = document.getElementById('prediction-result');
         predictionResultElement.textContent = `Prediction Probability: ${predictionProbability}`;
-    })
-    .catch(error => {
-        console.error('Error fetching data from API:', error);
-        alert('Failed to fetch data from API');
-    });
+    } catch (error) {
+        // Log and alert the error message
+        console.error('Error:', error);
+        alert('Failed to get flood prediction');
+    }
 }
+
 
 
