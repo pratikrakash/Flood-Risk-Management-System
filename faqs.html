@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chennai Flood Hazard FAQs</title>
+    <style>
+        .faq-container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .faq-question {
+            background-color: #f4f4f4;
+            padding: 10px;
+            border-radius: 5px;
+            margin-bottom: 10px;
+            cursor: pointer;
+        }
+        .faq-answer {
+            display: none;
+            padding: 10px;
+            border-radius: 5px;
+            background-color: #fff;
+        }
+
+        .navbar {
+            background-color: #333;
+            color: white;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navbar a {
+            color: white;
+            text-decoration: none;
+            margin-right: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="navbar">
+        <div>
+            <a href="#">Home</a>
+            <a href="#">Feedback</a>
+            <a href="#">Announcement</a>
+            <a href="#">Evacuation Tips</a>
+        </div>
+        <div>
+            <a href="#">Sign Out</a>
+        </div>
+    </div>
+
+    <div class="faq-container">
+        <h1>Chennai Flood Hazard FAQs</h1>
+
+        <div class="faq-question">
+            <h3>What are the common causes of floods in Chennai?</h3>
+            <div class="faq-answer">
+                <p>Floods in Chennai are commonly caused by heavy rainfall, overflowing rivers, poor drainage systems, and cyclonic storms.</p>
+            </div>
+        </div>
+
+        <div class="faq-question">
+            <h3>How can I prepare for a flood?</h3>
+            <div class="faq-answer">
+                <p>To prepare for a flood, you should create an emergency kit, develop an evacuation plan, stay informed about weather conditions, and secure your home.</p>
+            </div>
+        </div>
+
+        <!-- Add more FAQs here -->
+
+        <div class="faq-question">
+            <h3>Whom should I contact in case of a flood emergency?</h3>
+            <div class="faq-answer">
+                <p>In case of a flood emergency, you can contact the following:</p>
+                <ul>
+                    <li>Emergency Services: 911</li>
+                    <li>Chennai Corporation Helpline: +91-XXXXX-XXXXX</li>
+                    <li>Disaster Management Authority: +91-XXXXX-XXXXX</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Add functionality to toggle the answer visibility
+        const faqQuestions = document.querySelectorAll('.faq-question');
+
+        faqQuestions.forEach(question => {
+            question.addEventListener('click', () => {
+                question.classList.toggle('active');
+                const answer = question.querySelector('.faq-answer');
+                answer.style.display = answer.style.display === 'block' ? 'none' : 'block';
+            });
+        });
+    </script>
+</body>
+</html>

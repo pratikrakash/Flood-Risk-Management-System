@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chennai Weather Notifications</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f3f3f3;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        .notification {
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            padding: 10px;
+            margin-bottom: 15px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .notification-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .notification-content {
+            font-size: 16px;
+            color: #555;
+        }
+        .navbar {
+            background-color: #333;
+            color: white;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navbar a {
+            color: white;
+            text-decoration: none;
+            margin-right: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <div>
+            <a href="#">Home</a>
+            <a href="#">Feedback</a>
+            <a href="#">Announcement</a>
+            <a href="#">Evacuation Tips</a>
+        </div>
+        <div>
+            <a href="#">Sign Out</a>
+        </div>
+    </div>
+
+
+    <div class="container">
+        <h1>Chennai Weather Notifications</h1>
+
+        <div class="notification">
+            <div class="notification-title">Today's Weather Update</div>
+            <div class="notification-content">The wind will be normal today with a slight chance of scattered showers. Temperature: 30°C - 35°C.</div>
+        </div>
+
+        <div class="notification">
+            <div class="notification-title">Upcoming Forecast</div>
+            <div class="notification-content">Expect moderate rainfall over the next two days. Stay prepared for possible localized flooding in low-lying areas.</div>
+        </div>
+
+        <div class="notification">
+            <div class="notification-title">Emergency Alert</div>
+            <div class="notification-content">Chennai Disaster Management Authority advises residents to avoid coastal areas due to rough seas and high tides expected tomorrow.</div>
+        </div>
+
+        <div class="notification">
+            <div class="notification-title">Traffic Advisory</div>
+            <div class="notification-content">Due to heavy rainfall, some roads in low-lying areas may be flooded. Use alternative routes and drive safely.</div>
+        </div>
+    </div>
+</body>
+</html>
