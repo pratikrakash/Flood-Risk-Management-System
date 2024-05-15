@@ -116,6 +116,8 @@ async function sendEmail() {
 }
 
 
+document.getElementById('calculate-flood-prediction').addEventListener('click', calculateFloodPrediction);
+
 function calculateFloodPrediction() {
     // Fetch data from the API
     fetch('http://127.0.0.1:5000/api/predict', {
